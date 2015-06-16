@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} {{ parent() }} {{post.title}} {% endblock %}
+{% block body %}
+    <article class="col-md-10">
+        <h1 class="bg-primary">{{post.title}}</h1>
+        <p class="bg-info">
+            {{post.publishedate|date}} by {{post.author.firstname}} {{post.author.lastname}} 
+            <span class="badge"> {{ post.author.posts | length }}</span>
+        </p>
+        
+        <p class="panel panel-success">{{post.body|raw}}</p>
+        <p class="panel panel-primary"> <span class="badge">{{ post.tags | length }}</span>
+            {% for tag in post.tags %}
+                {{ tag.keyword }}, 
+            {% endfor %}
+            
+        </p>
+    </article>
+{% endblock %}

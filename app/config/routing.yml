@@ -1,0 +1,12 @@
+europa_blog:
+    resource: "@EuropaBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+europa_sandbox:
+    resource: "@EuropaSandboxBundle/Resources/config/routing.yml"
+    prefix:   /sb
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

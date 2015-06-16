@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+{% import 'EuropaSandboxBundle:Default:article.html.twig' as article %}
+
+{% block title %} {{ parent() }} {{ name }} {% endblock %}
+{% block body %}
+    <div class="col-md-10">
+    Previous: {{previousName}}
+    <hr />
+    Hello {{ name }} !
+    <hr />
+    {% for msg in app.session.flashBag.get('notice') %}
+        <p>{{msg}}</p>
+    {% endfor %}
+    <div class="alert alert-info pull-right">
+    {{ render_hinclude(controller('EuropaSandboxBundle:Default:test', {"notif":"You have a new mail"})) }}
+    
+    <!-- {{ render(controller('EuropaSandboxBundle:Default:test', {"notif":"You have a new mail"})) }} -->
+    </div>
+    
+    <hr />
+    
+    {{ article.post('Titre de l\'article', '12/02/2015', 'sdvljsh jvhdfjkg kjhbkj dhhjh kjg jkh ') }}
+    
+    <hr />
+    <a href="{{path('europa_sandbox_homepage', {'name':previousName})}}">Test Previous</a>
+    </div>
+{% endblock %}

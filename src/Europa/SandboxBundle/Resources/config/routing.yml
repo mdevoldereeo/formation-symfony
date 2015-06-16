@@ -1,0 +1,12 @@
+europa_sandbox_homepage:
+    path:     /hello/{name}
+    defaults: 
+        _controller:  EuropaSandboxBundle:Default:index
+        _format:      html
+        _locale:      fr
+        name:         'Default Name'
+        previousName: 'Non renseigné'
+    requirements:
+        _format:      html\json
+        
+        

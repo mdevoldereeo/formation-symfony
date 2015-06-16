@@ -1,0 +1,19 @@
+{% extends 'EuropaBlogBundle::blog.html.twig' %}
+
+{% block title %} {{ parent() }} BlogPost {% endblock %}
+{% block body %}
+<div class="col-md-10">
+    <h1 class="panel panel-default blogTitle">Liste des publications</h1>
+    
+    {%for post in posts %}
+        {{ loop.first ? '<ul class="list-group">' }}
+        <li class="list-group-item">#{{ post.id }} <a href="{{ path('europa_blog_post_show', {'id' : post.id}) }}">{{post.title}}</a></li>
+        {{ loop.last ? '</ul>' }}
+        
+    {% else %}
+        <p class="alert alert-info">Aucune publication pour  {{ app.request.get('year') }}/{{ app.request.get('month') }}</p>
+    
+    {% endfor %}
+    
+</div>
+{% endblock %}
