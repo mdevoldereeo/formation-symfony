@@ -65,6 +65,13 @@ class Post
      * @var ArrayCollection 
      */
     private $tags;
+    
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(length=128)
+     * @var string
+     */
+    //private $slug;
 
     /**
      * Get id
