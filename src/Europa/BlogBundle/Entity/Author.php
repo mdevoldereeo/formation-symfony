@@ -3,6 +3,7 @@
 namespace Europa\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Author
@@ -23,8 +24,8 @@ class Author
 
     /**
      * @var string
-     *
      * @ORM\Column(name="lastname", type="string", length=80)
+     * @Assert\NotBlank()
      */
     private $lastname;
 
@@ -32,6 +33,7 @@ class Author
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=80)
+     * @Assert\NotBlank()
      */
     private $firstname;
 
@@ -95,6 +97,15 @@ class Author
     public function getFirstname()
     {
         return $this->firstname;
+    }
+    
+    /**
+     * @Assert\Length(max=400)
+     * @return string
+     */
+    public function getFullname() 
+    {
+        return '#'.$this->id.' - '.$this->lastname.' '.$this->firstname;
     }
     
     /**

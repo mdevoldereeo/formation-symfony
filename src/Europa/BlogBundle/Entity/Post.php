@@ -3,12 +3,14 @@
 namespace Europa\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Post
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="PostRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
@@ -25,6 +27,14 @@ class Post
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message="post.title.notBlank.message")
+     * @Assert\Length(
+     * min=10, 
+     * max=200, 
+     * minMessage="post.title.lengthmin.message", maxMessage="post.title.lengthmax.message",
+     * groups={"publishing", "Default"}
+     * ) 
+     * 
      */
     private $title;
 
@@ -32,6 +42,7 @@ class Post
      * @var string
      *
      * @ORM\Column(name="body", type="text")
+     * @Assert\NotBlank()
      */
     private $body;
 
@@ -43,7 +54,7 @@ class Post
     private $publishedate;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @var type Author
      */
@@ -196,4 +207,15 @@ class Post
     {
         return $this->tags;
     }
+    
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setDefaultPublishedate()
+    {
+        if(!$this->publishedate) {
+            $this->publishedate = (new \DateTime('+1 day'));
+        }
+    }
+    
 }

@@ -1,0 +1,37 @@
+{% extends 'EuropaBlogBundle::blog.html.twig' %}
+
+{% form_theme postForm '::form/fields.html.twig' %}
+
+{% block title %} {{ parent() }} Nouvelle publication {% endblock %}
+{% block body %}
+{{ parent() }}
+    <article class="col-md-10">
+        <h1 class="bg-primary">Ajouter une publication</h1>
+        
+        {#{{ form(postForm) }}#}
+        
+        <div class="panel panel-default">
+            {{ form_start(postForm, {'attr':{'novalidate':'novalidate' }}) }}
+
+            {{ form_errors(postForm) }}
+
+            {{ form_row(postForm.title) }}
+
+        
+        
+           {# <fieldset>
+                {{ form_errors(postForm.body) }}
+                {{ form_label(postForm.body) }}
+                {{ form_widget(postForm.body) }}
+            </fieldset> #}
+
+            <fieldset>
+                {{ form_end(postForm) }}
+            </fieldset>
+            
+        </div>
+        
+        
+        
+    </article>
+{% endblock %}

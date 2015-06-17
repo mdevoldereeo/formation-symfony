@@ -2,6 +2,7 @@
 
 {% block title %} {{ parent() }} BlogPost {% endblock %}
 {% block body %}
+{{ parent() }}
 <div class="col-md-10">
     <h1 class="panel panel-default blogTitle">Liste des publications</h1>
     
@@ -15,5 +16,6 @@
     
     {% endfor %}
     
+    <p>{{ loc }}</p>
 </div>
 {% endblock %}

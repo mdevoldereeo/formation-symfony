@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class AuthorRepository extends EntityRepository
 {
+    
+    public function find($id)
+    {
+        return $this->getEntityManager()->createQuery
+        ('
+          SELECT a FROM EuropaBlogBundle:Author a 
+          WHERE a.id = :id 
+        ')
+        ->setParameters(array('id' => $id))
+        ->getOneOrNullResult();
+    }
+    
 }

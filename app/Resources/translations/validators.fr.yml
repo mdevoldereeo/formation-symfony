@@ -1,0 +1,3 @@
+post.title.notBlank.message: Pas de bras, pas de chocolat
+post.title.lengthmin.message: Trop court (min = {{ limit }}) !
+post.title.lengthmax.message: Trop long (max = {{ limit }}) !

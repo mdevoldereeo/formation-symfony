@@ -12,6 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+    
+    public function listPosts()
+    {
+        return $this->getEntityManager()->createQuery
+        ('
+          SELECT p, a FROM EuropaBlogBundle:Post p 
+          JOIN p.author a 
+        ')
+        ->getResult();
+    }
+    
+    
+    
     /**
      * 
      * @param integer $id

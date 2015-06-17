@@ -4,3 +4,16 @@
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset("bundles/europablog/css/blog.css") }}" />
 {% endblock %}
+
+
+{% block body %}
+{{ parent() }}
+   
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="{{ path('europa_blog_post_index') }}">Home</a></li>
+  <li role="presentation"><a href="{{ path('europa_blog_post_showbymonth', {'year' : '2015', 'month' : '06'}) }}">2015/06</a></li>
+  <li role="presentation"><a href="{{ path('europa_blog_post_showbymonth', {'year' : '2015', 'month' : '04'}) }}">2015/04</a></li>
+  <li role="presentation"><a href="{{ path('europa_blog_post_add') }}">Nouvelle publication</a></li>
+</ul>
+
+{% endblock %}

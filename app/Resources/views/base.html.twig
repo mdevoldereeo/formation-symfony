@@ -12,8 +12,22 @@
     <body>
     <div class="container">
     <div class="row">
+        {% block flashMessages %}
+            {% set fmessages = app.session.flashBag.get('user_notice') %}
+            {% if fmessages | length>0 %}
+                <div class="alert alert-info alert-dismissible pull-right" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {% for fmessage in fmessages %}
+                <p>{{ fmessage }}</p>
+            {% endfor %}
+                </div>
+            {% endif %}
+        
+        {% endblock %}
+        
         {% block body %}{% endblock %}
         {% block javascripts %}
+        <script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/hinclude.js') }}"></script>
         {% endblock %}

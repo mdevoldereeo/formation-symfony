@@ -2,14 +2,14 @@
 
 namespace Europa\BlogBundle\Controller;
 
-use DateTime; 
-use Europa\BlogBundle\Entity\Post; 
-use Europa\BlogBundle\Entity\Author; 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter; 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template; 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller; 
-use Symfony\Component\HttpFoundation\Response; 
+use Europa\BlogBundle\Entity\Post;
+use Europa\BlogBundle\Form\PostType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PostController
@@ -21,40 +21,69 @@ class PostController extends Controller
 {
     /**
      * @Route("/")
-     * @Template()
+     * @Template("EuropaBlogBundle:post:index.html.twig")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-       /*$post = (new Author())
-                    ->setLastname('DEVOLDERE')
-                    ->setFirstname('Mike');
+        $pr = $this->getDoctrine()->getRepository('EuropaBlogBundle:Post');
         
-        $em = $this->getDoctrine()->getManager();
+        $posts = $pr->listPosts();
         
-        $em->persist($post);
-        $em->flush();*/
-        
-        return new Response('NaN', Response::HTTP_CREATED);
+        return array('posts' => $posts, 'loc' => $request->getLocale());
     }
     
     /**
      * @Route("/add")
      * @Template()
+     * @return Response 
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
+        $post = new Post();
+
+        $form = $this->createForm
+        (
+          new PostType(), 
+          $post, 
+          array('validation_groups' => array('publising', 'Default'))
+        );
+        
+        $form->handleRequest($request);
+        
+        if($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+            $this->addFlash('user_notice', 'Publication ajoutée');
+            
+            return $this->redirectToRoute('europa_blog_post_show', array('id' => $post->getId()));
+        }
+        
+        return array('postForm' => $form->createView());
+    }
+    
+    /**
+     * @Route("/addnodate")
+     * @Template()
+     */
+    public function addNoDateAction()
+    {
+        $pr = $this->getDoctrine()->getRepository('EuropaBlogBundle:Author');
+        
+        $author = $pr->find('2');
+        
+        
         $post = (new Post())
-                    ->setTitle('Titre')
-                    ->setBody('Texte<br/>texte2')
-                    ->setPublishedate(new DateTime());
+                    ->setTitle('Europa Test')
+                    ->setBody('Read the f***ing manual !!!')
+                    ->setAuthor($author);
         
         $em = $this->getDoctrine()->getManager();
         
         $em->persist($post);
         $em->flush();
         
-        return new Response('Post:add:OK', Response::HTTP_CREATED);
-        
+        return new Response('Post:addNoDate:OK', Response::HTTP_CREATED);
     }
     
     /**
@@ -119,13 +148,13 @@ class PostController extends Controller
      * @param integer $month
      * @return array
      */ 
-    public function showByMonthAction($month, $year)
+    public function showByMonthAction($month, $year, Request $request)
     {
         $pr = $this->getDoctrine()->getRepository('EuropaBlogBundle:Post');
         
         $posts = $pr->findByMonth($month, $year);
         
-        return array('posts' => $posts);
+        return array('posts' => $posts, 'loc' => $request->getLocale());
     }
     
     /**
@@ -135,13 +164,13 @@ class PostController extends Controller
      * @param string $needle
      * @return array
      */ 
-    public function showByKeyword($needle)
+    public function showByKeyword($needle, Request $request)
     {
         $pr = $this->getDoctrine()->getRepository('EuropaBlogBundle:Post');
         
         $posts = $pr->findByKeyword($needle);
         
-        return array('posts' => $posts);
+        return array('posts' => $posts, 'loc' => $request->getLocale());
     }
 
     
