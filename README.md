@@ -1,3 +1,5 @@
+TRAINING SYMFONY & BUNDLES
+
 Symfony Standard Edition
 ========================
 
